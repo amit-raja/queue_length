@@ -26,10 +26,11 @@ def queue_list(request):
         time_now=datetime.now(timezone.utc)
         last_updated_time=queue_size.updated_time
         time_threshold = last_updated_time + timedelta(minutes=5)
+        last_updated_length=queue_size.queue_length
         
         #print(queue_size.updated_time)
         
-          if(new_queue_length < (queue_size.queue_length)-50 and time_now > time_threshold):
+          if(new_queue_length < (last_updated_time-50) and time_now>last_updated_time and time_now < time_threshold):
               return JsonResponse({"Invalid" : "queue_length"})
           else:
                   serializer = queue_infoSerializer(data=request.data)
